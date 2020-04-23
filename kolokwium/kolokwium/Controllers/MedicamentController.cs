@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using kolokwium.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace kolokwium.Controllers
@@ -10,10 +11,26 @@ namespace kolokwium.Controllers
     [Route("api/prescriptions")]
     public class MedicamentController : ControllerBase
     {
-        
-        public IActionResult Index()
+        private readonly IDbService _service;
+
+        public MedicamentController(IDbService service)
         {
-            return Ok();
+            this._service = service;
+        }
+
+        [HttpGet]
+        public IActionResult Getprescription(string IdPrescription)
+        {
+            var result = _service.GetPrescription(IdPrescription);
+            if(result == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(result);
+            }
+           
         }
     }
 }
