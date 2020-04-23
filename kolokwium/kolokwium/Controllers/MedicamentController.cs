@@ -19,8 +19,8 @@ namespace kolokwium.Controllers
             this._service = service;
         }
 
-        [HttpGet("{IdPrescription}")]
-        public IActionResult Getprescription(string IdPrescription)
+        [HttpGet]
+        public IActionResult Getprescription(int IdPrescription)
         {
             var result = _service.GetPrescription(IdPrescription);
             if(result == null)

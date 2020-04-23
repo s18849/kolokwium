@@ -9,7 +9,7 @@ namespace kolokwium.Services
 {
     public interface IDbService
     {
-        GetPrescriptionResponse GetPrescription(string Id);
+        GetPrescriptionResponse GetPrescription(int Id);
         InsertPrescriptionResponse InsertPrescription(InsertPrescriptionRequest request);
     }
 }

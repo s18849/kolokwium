@@ -7,7 +7,7 @@ namespace kolokwium.Services
     public class PrescriptionDbService : IDbService
     {
         private const string ConString = "Data Source=db-mssql;Initial Catalog=s18849;Integrated Security=True";
-        public GetPrescriptionResponse GetPrescription(string Id)
+        public GetPrescriptionResponse GetPrescription(int Id)
         {
 
             var response = new GetPrescriptionResponse();
@@ -49,9 +49,38 @@ namespace kolokwium.Services
                 com.Transaction = tran;
                 try
                 {
-                    com.CommandText = "select count(*) from prescription";
-                    var dr = com.ExecuteReader();
-                    int Id = int.Parse(dr.ToString());
+                    com.CommandText = "select count(*)+1 as Id from Prescription";
+                    int Id;
+                    using(var dr = com.ExecuteReader())
+                    {
+                        if (!dr.HasRows)
+                        {
+                            return null;
+                        }
+                        Id = int.Parse(dr["Id"].ToString());
+                    }
+                    com.Parameters.Clear();
+                    com.CommandText = "select * from Patient where IdPatient = @patient";
+                    com.Parameters.AddWithValue("patient", request.IdPatient);
+                    using (var dr = com.ExecuteReader())
+                    {
+                        if (!dr.HasRows)
+                        {
+                            return null;
+                        }
+                       
+                    }
+                    com.CommandText = "select * from Doctor where IdDoctor = @doctor";
+                    com.Parameters.AddWithValue("doctor", request.IdPatient);
+                    using (var dr = com.ExecuteReader())
+                    {
+                        if (!dr.HasRows)
+                        {
+                            return null;
+                        }
+
+                    }
+
 
                     com.CommandText = "insert into prescription (IdPrescription,Date, DueDate,IdPatient,IdDoctor)" +
                        "values(@IdPrescription,@Date,@DueDate,@IdPatient,@IdDoctor)";
