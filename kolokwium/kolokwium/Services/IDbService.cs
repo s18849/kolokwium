@@ -1,4 +1,5 @@
-﻿using kolokwium.DTOs.Responses;
+﻿using kolokwium.DTOs.Requests;
+using kolokwium.DTOs.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace kolokwium.Services
     public interface IDbService
     {
         GetPrescriptionResponse GetPrescription(string Id);
+        InsertPrescriptionResponse InsertPrescription(InsertPrescriptionRequest request);
     }
 }

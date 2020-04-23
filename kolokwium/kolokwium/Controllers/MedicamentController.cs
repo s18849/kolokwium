@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using kolokwium.DTOs.Requests;
 using kolokwium.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace kolokwium.Controllers
             this._service = service;
         }
 
-        [HttpGet]
+        [HttpGet("{IdPrescription}")]
         public IActionResult Getprescription(string IdPrescription)
         {
             var result = _service.GetPrescription(IdPrescription);
@@ -30,7 +31,21 @@ namespace kolokwium.Controllers
             {
                 return Ok(result);
             }
-           
+            
+        }
+        [HttpPost]
+        public IActionResult InsertPrescription(InsertPrescriptionRequest request)
+        {
+            var result = _service.InsertPrescription(request);
+            if (result == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(result);
+            }
+
         }
     }
 }
